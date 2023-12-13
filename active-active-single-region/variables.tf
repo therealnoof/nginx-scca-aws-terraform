@@ -41,6 +41,12 @@ variable "vpc_cidrs" {
 }
 
 variable "app_vip" {
-  description = "IP address of BIG-IP virtual server"
+  description = "IP address of NLB listener"
   type        = string
+}
+
+variable "webapp_ami" {
+  description = "Test web app AMI - Ubuntu Server 22.04 LTS running Docker with Juiceshop"
+  type        = string
+  default     = "ami-03f535c1f557d8eab"
 }
