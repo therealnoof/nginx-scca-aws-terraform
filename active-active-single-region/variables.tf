@@ -12,10 +12,16 @@ variable "region" {
   default     = "us-gov-east-1"
 }
 
-variable "az" {
+variable "az_1" {
   description = "AWS Availability Zone"
   type        = string
-  default     = "us-east-1a"
+  default     = "us-gov-east-1a"
+}
+
+variable "az_2" {
+  description = "AWS Availability Zone"
+  type        = string
+  default     = "us-gov-east-1b"
 }
 
 variable "ec2_key_name" {
