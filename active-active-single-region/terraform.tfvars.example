@@ -33,7 +33,8 @@ vpc_cidrs = {
   dmz_ingress_az2     = "10.0.6.0/24"
   dmz_egress_az1      = "10.0.7.0/24"
   dmz_egress_az2      = "10.0.8.0/24"
-  internal            = "10.0.9.0/24"
+  internal_az1        = "10.0.9.0/24"
+  internal_az2        = "10.0.10.0/24"
   application         = "192.168.1.0/24"
 }
 
@@ -42,6 +43,7 @@ app_vip = "10.0.2.200"
 
 # Nginx+ instance type
 instance_type = "t3.large"
+
 
 # AMI IDs (Region-specific)
 inspection_ami = "ami-03f535c1f557d8eab" ### us-gov-east-1 ### Ubuntu Server 22.04 LTS 

@@ -3,7 +3,7 @@
 variable "prefix" {
   description = "Prefix for object creation"
   type        = string
-  default     = "demo"
+  default     = "nginx-scca"
 }
 
 variable "region" {
