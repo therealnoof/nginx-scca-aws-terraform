@@ -44,8 +44,8 @@ resource "aws_subnet" "az_2_external" {
 }
 
 
-## Create DMZ Ingress az1 Subnet
-resource "aws_subnet" "dmz_ingress_az1" {
+## Create DMZ Ingress Zone az1 Subnet
+resource "aws_subnet" "dmz_ingress_zone_az1" {
   vpc_id            = aws_vpc.securitystack.id
   cidr_block        = var.vpc_cidrs["dmz_ingress_az1"]
   availability_zone = var.az_1
@@ -55,8 +55,8 @@ resource "aws_subnet" "dmz_ingress_az1" {
   }
 }
 
-## Create DMZ Ingress az2 Subnet
-resource "aws_subnet" "dmz_ingress_az2" {
+## Create DMZ Ingress Zone az2 Subnet
+resource "aws_subnet" "dmz_ingress_zone_az2" {
   vpc_id            = aws_vpc.securitystack.id
   cidr_block        = var.vpc_cidrs["dmz_ingress_az2"]
   availability_zone = var.az_2
@@ -68,7 +68,7 @@ resource "aws_subnet" "dmz_ingress_az2" {
 
 
 ## Create DMZ Egress az1 Subnet
-resource "aws_subnet" "dmz_egress_az1" {
+resource "aws_subnet" "dmz_egress_zone_az1" {
   vpc_id            = aws_vpc.securitystack.id
   cidr_block        = var.vpc_cidrs["dmz_egress_az1"]
   availability_zone = var.az_1
@@ -79,7 +79,7 @@ resource "aws_subnet" "dmz_egress_az1" {
 }
 
 ## Create DMZ Egress az2 Subnet
-resource "aws_subnet" "dmz_egress_az2" {
+resource "aws_subnet" "dmz_egress_zone_az2" {
   vpc_id            = aws_vpc.securitystack.id
   cidr_block        = var.vpc_cidrs["dmz_egress_az2"]
   availability_zone = var.az_2

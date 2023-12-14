@@ -14,25 +14,54 @@ resource "aws_network_interface" "nginx_management_az1" {
   }
 }
 
-## Create External Network Interface for Nginx+ in AZ1
-resource "aws_network_interface" "bigip_external" {
-  private_ips       = ["${cidrhost(var.vpc_cidrs["external"], 11)}", "${var.app_vip}"]
-  subnet_id         = aws_subnet.external.id
+## Create Management Network Interface for Nginx+ in AZ2
+resource "aws_network_interface" "nginx_management_az2" {
+  subnet_id         = aws_subnet.az_2_management.id
   source_dest_check = "false"
-  security_groups   = [aws_security_group.external.id]
+  security_groups   = [aws_security_group.management.id]
   tags = {
-    Name = "${var.prefix}-eni_bigip_external"
+    Name = "${var.prefix}-eni_nginx_management_az2"
   }
 }
 
-## Create Internal Network Interface for BIG-IP
-resource "aws_network_interface" "bigip_internal" {
-  private_ips       = ["${cidrhost(var.vpc_cidrs["internal"], 11)}"]
-  subnet_id         = aws_subnet.internal.id
+## Create External Network Interface for Nginx+ in AZ1
+resource "aws_network_interface" "nginx_external_az1" {
+  subnet_id         = aws_subnet.az_1_external.id
+  source_dest_check = "false"
+  security_groups   = [aws_security_group.external.id]
+  tags = {
+    Name = "${var.prefix}-eni_nginx_external_az1"
+  }
+}
+
+## Create External Network Interface for Nginx+ in AZ2
+resource "aws_network_interface" "nginx_external_az2" {
+  subnet_id         = aws_subnet.az_2_external.id
+  source_dest_check = "false"
+  security_groups   = [aws_security_group.external.id]
+  tags = {
+    Name = "${var.prefix}-eni_nginx_external_az2"
+  }
+}
+
+
+## Create Internal Network Interface for Nginix+ in AZ1
+resource "aws_network_interface" "nginx_internal_az1" {
+  subnet_id         = aws_subnet.internal_az_1.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.internal.id]
   tags = {
-    Name = "${var.prefix}-eni_bigip_internal"
+    Name = "${var.prefix}-eni_nginx_internal_az1"
+  }
+}
+
+## Create Internal Network Interface for Nginix+ in AZ2
+resource "aws_network_interface" "nginx_internal_az2" {
+  subnet_id         = aws_subnet.internal_az_2.id
+  source_dest_check = "false"
+  security_groups   = [aws_security_group.internal.id]
+  tags = {
+    Name = "${var.prefix}-eni_nginx_internal_az2"
   }
 }
 
