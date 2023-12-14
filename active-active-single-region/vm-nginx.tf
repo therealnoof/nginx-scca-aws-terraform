@@ -4,193 +4,189 @@
 
 ## Create network interfaces
 
-## Create Management Network Interface for Nginx+ in AZ1
-resource "aws_network_interface" "nginx_management_az1" {
+## Create Management Network Interface for Nginx+ top tier in AZ1
+resource "aws_network_interface" "nginx_management_top_tier_az1" {
   subnet_id         = aws_subnet.az_1_management.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.management.id]
   tags = {
-    Name = "${var.prefix}-eni_nginx_management_az1"
+    Name = "${var.prefix}-eni_nginx_management_top_tier_az1"
   }
 }
 
-## Create Management Network Interface for Nginx+ in AZ2
-resource "aws_network_interface" "nginx_management_az2" {
+## Create Management Network Interface for Nginx+ top tier in AZ2
+resource "aws_network_interface" "nginx_management_top_tier_az2" {
   subnet_id         = aws_subnet.az_2_management.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.management.id]
   tags = {
-    Name = "${var.prefix}-eni_nginx_management_az2"
+    Name = "${var.prefix}-eni_nginx_management_top_tier_az2"
   }
 }
 
-## Create External Network Interface for Nginx+ in AZ1
-resource "aws_network_interface" "nginx_external_az1" {
+## Create Management Network Interface for Nginx+ bottom tier in AZ1
+resource "aws_network_interface" "nginx_management_bottom_tier_az1" {
+  subnet_id         = aws_subnet.az_1_management.id
+  source_dest_check = "false"
+  security_groups   = [aws_security_group.management.id]
+  tags = {
+    Name = "${var.prefix}-eni_nginx_management_bottom_tier_az1"
+  }
+}
+
+## Create Management Network Interface for Nginx+ bottom tier in AZ2
+resource "aws_network_interface" "nginx_management_bottom_tier_az2" {
+  subnet_id         = aws_subnet.az_2_management.id
+  source_dest_check = "false"
+  security_groups   = [aws_security_group.management.id]
+  tags = {
+    Name = "${var.prefix}-eni_nginx_management_bottom_tier_az2"
+  }
+}
+
+## Create External Network Interface for Nginx+ top tier in AZ1
+resource "aws_network_interface" "nginx_external_top_tier_az1" {
   subnet_id         = aws_subnet.az_1_external.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.external.id]
   tags = {
-    Name = "${var.prefix}-eni_nginx_external_az1"
+    Name = "${var.prefix}-eni_nginx_external_top_tier_az1"
   }
 }
 
-## Create External Network Interface for Nginx+ in AZ2
-resource "aws_network_interface" "nginx_external_az2" {
+## Create External Network Interface for Nginx+ top tier in AZ2
+resource "aws_network_interface" "nginx_external_top_tier_az2" {
   subnet_id         = aws_subnet.az_2_external.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.external.id]
   tags = {
-    Name = "${var.prefix}-eni_nginx_external_az2"
+    Name = "${var.prefix}-eni_nginx_external_top_tier_az2"
   }
 }
 
 
-## Create Internal Network Interface for Nginix+ in AZ1
-resource "aws_network_interface" "nginx_internal_az1" {
+## Create Internal Network Interface for Nginix+ bottom tier in AZ1
+resource "aws_network_interface" "nginx_internal_bottom_tier_az1" {
   subnet_id         = aws_subnet.internal_az_1.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.internal.id]
   tags = {
-    Name = "${var.prefix}-eni_nginx_internal_az1"
+    Name = "${var.prefix}-eni_nginx_internal_bottom_tier_az1"
   }
 }
 
-## Create Internal Network Interface for Nginix+ in AZ2
-resource "aws_network_interface" "nginx_internal_az2" {
+## Create Internal Network Interface for Nginix+ bottom tier in AZ2
+resource "aws_network_interface" "nginx_internal_bottom_tier_az2" {
   subnet_id         = aws_subnet.internal_az_2.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.internal.id]
   tags = {
-    Name = "${var.prefix}-eni_nginx_internal_az2"
+    Name = "${var.prefix}-eni_nginx_internal_bottom_tier_az2"
   }
 }
 
-## Create dmz1 Network Interface for BIG-IP
-resource "aws_network_interface" "bigip_dmz1" {
-  private_ips       = ["${cidrhost(var.vpc_cidrs["dmz1"], 7)}", "${cidrhost(var.vpc_cidrs["dmz1"], 8)}"]
-  subnet_id         = aws_subnet.dmz1.id
+## Create dmz ingress zone Network Interface for Nginx+ in AZ1
+resource "aws_network_interface" "nginx_ingress_zone_dmz_az1" {
+  subnet_id         = aws_subnet.dmz_ingress_zone_az1.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.inspection_zone.id]
   tags = {
-    Name = "${var.prefix}-eni_bigip_dmz1"
+    Name = "${var.prefix}-eni_nginx_dmz_ingress_zone_az1"
   }
 }
 
-## Create dmz2 Network Interface for BIG-IP
-resource "aws_network_interface" "bigip_dmz2" {
-  private_ips       = ["${cidrhost(var.vpc_cidrs["dmz2"], 117)}", "${cidrhost(var.vpc_cidrs["dmz2"], 116)}"]
-  subnet_id         = aws_subnet.dmz2.id
+## Create dmz ingress zone Network Interface for Nginx+ in AZ2
+resource "aws_network_interface" "nginx_ingress_zone_dmz_az2" {p
+  subnet_id         = aws_subnet.dmz_ingress_zone_az2.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.inspection_zone.id]
   tags = {
-    Name = "${var.prefix}-eni_bigip_dmz2"
+    Name = "${var.prefix}-eni_nginx_dmz_ingress_zone_az2"
   }
 }
 
-## Create dmz3 Network Interface for BIG-IP
-resource "aws_network_interface" "bigip_dmz3" {
-  private_ips       = ["${cidrhost(var.vpc_cidrs["dmz3"], 7)}", "${cidrhost(var.vpc_cidrs["dmz3"], 8)}"]
-  subnet_id         = aws_subnet.dmz3.id
+## Create dmz egress zone Network Interface for Nginx+ in AZ1
+resource "aws_network_interface" "nginx_egress_zone_dmz_az1" {
+  subnet_id         = aws_subnet.dmz_egress_zone_az1.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.inspection_zone.id]
   tags = {
-    Name = "${var.prefix}-eni_bigip_dmz3"
+    Name = "${var.prefix}-eni_nginx_dmz_egress_zone_az1"
   }
 }
 
-## Create dmz4 Network Interface for BIG-IP
-resource "aws_network_interface" "bigip_dmz4" {
-  private_ips       = ["${cidrhost(var.vpc_cidrs["dmz4"], 117)}", "${cidrhost(var.vpc_cidrs["dmz4"], 116)}"]
-  subnet_id         = aws_subnet.dmz4.id
+## Create dmz egress zone Network Interface for Nginx+ in AZ2
+resource "aws_network_interface" "nginx_egress_zone_dmz_az2" {
+  subnet_id         = aws_subnet.dmz_egress_zone_az2.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.inspection_zone.id]
   tags = {
-    Name = "${var.prefix}-eni_bigip_dmz4"
+    Name = "${var.prefix}-eni_nginx_dmz_egress_zone_az2"
   }
 }
 
-
-## Create Public IPs and associate to network interfaces
-resource "aws_eip" "bigip_management" {
-  vpc               = true
-  public_ipv4_pool  = "amazon"
-  network_interface = aws_network_interface.bigip_management.id
-  tags = {
-    Name = "${var.prefix}-eip_bigip_management"
-  }
-}
-
-resource "aws_eip" "sslo_vip" {
-  vpc                       = true
-  public_ipv4_pool          = "amazon"
-  network_interface         = aws_network_interface.bigip_external.id
-  associate_with_private_ip = var.app_vip
-  tags = {
-    Name = "${var.prefix}-eip_bigip_vip"
-  }
-}
 
 
 #
-# BIG-IP
+# Nginx+
 #
-locals {
-  onboard_template = templatefile("${path.module}/f5_onboard.tmpl", {
-    license_key     = var.license_key
-    admin_password  = var.admin_password
-    internal_selfip = "${cidrhost(var.vpc_cidrs["internal"], 11)}/24"
-    external_selfip = "${cidrhost(var.vpc_cidrs["external"], 11)}/24"
-    app_route_dest  = var.vpc_cidrs["application"]
-    app_route_gw    = "${cidrhost(var.vpc_cidrs["internal"], 1)}"
-    sslo_pkg_name   = var.sslo_pkg_name
-  })
-}
 
-## Create BIG-IP
-resource "aws_instance" "sslo" {
-  depends_on        = [aws_eip.bigip_management, aws_route_table_association.management]
-  ami               = var.sslo_ami
+
+## Create Nginx+ top tier az1
+resource "aws_instance" "nginx_top_az1" {
+  depends_on        = [aws_route_table_association.management]
+  ami               = var.nginx_ami
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
-  availability_zone = var.az
-  user_data         = local.onboard_template
+  availability_zone = var.az_1
+  
 
   tags = {
-    Name = "${var.prefix}-vm_bigip_sslo"
+    Name = "${var.prefix}-vm_nginx_top_az1"
   }
   # set the mgmt interface 
   network_interface {
-    network_interface_id = aws_network_interface.bigip_management.id
+    network_interface_id = aws_network_interface.nginx_management_top_tier_az1.id
     device_index         = 0
   }
   # set the external interface 
   network_interface {
-    network_interface_id = aws_network_interface.bigip_external.id
+    network_interface_id = aws_network_interface.nginx_external_top_tier_az1.id
     device_index         = 1
   }
-  # set the internal interface 
+  # set the ingress zone interface 
   network_interface {
-    network_interface_id = aws_network_interface.bigip_internal.id
+    network_interface_id = aws_network_interface.nginx_ingress_zone_dmz_az1.id
     device_index         = 2
   }
-  # set the inspection zone (dmz1) interface 
-  network_interface {
-    network_interface_id = aws_network_interface.bigip_dmz1.id
-    device_index         = 3
+}
+
+
+## Create Nginx+ top tier az2
+resource "aws_instance" "nginx_top_az2" {
+  depends_on        = [aws_route_table_association.management]
+  ami               = var.nginx_ami
+  instance_type     = var.instance_type
+  key_name          = aws_key_pair.my_keypair.key_name
+  availability_zone = var.az_2
+  
+
+  tags = {
+    Name = "${var.prefix}-vm_nginx_top_az2"
   }
-  # set the inspection zone (dmz2) interface 
+  # set the mgmt interface 
   network_interface {
-    network_interface_id = aws_network_interface.bigip_dmz2.id
-    device_index         = 4
+    network_interface_id = aws_network_interface.nginx_management_top_tier_az2.id
+    device_index         = 0
   }
-  # set the inspection zone (dmz3) interface 
+  # set the external interface 
   network_interface {
-    network_interface_id = aws_network_interface.bigip_dmz3.id
-    device_index         = 5
+    network_interface_id = aws_network_interface.nginx_external_top_tier_az2.id
+    device_index         = 1
   }
-  # set the inspection zone (dmz4) interface 
+  # set the ingress zone interface 
   network_interface {
-    network_interface_id = aws_network_interface.bigip_dmz4.id
-    device_index         = 6
+    network_interface_id = aws_network_interface.nginx_ingress_zone_dmz_az2.id
+    device_index         = 2
   }
 }

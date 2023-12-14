@@ -56,3 +56,9 @@ variable "webapp_ami" {
   type        = string
   default     = "ami-03f535c1f557d8eab"
 }
+
+variable "nginx_ami" {
+  description = "nginx+ with app protect on Ubuntu 20.04 LTS"
+  type        = string
+  default     = "ami-0b1136322fc65ce34"
+}
