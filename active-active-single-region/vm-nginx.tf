@@ -190,3 +190,62 @@ resource "aws_instance" "nginx_top_az2" {
     device_index         = 2
   }
 }
+
+## Create Nginx+ bottom tier az1
+resource "aws_instance" "nginx_bottom_az1" {
+  depends_on        = [aws_route_table_association.management]
+  ami               = var.nginx_ami
+  instance_type     = var.instance_type
+  key_name          = aws_key_pair.my_keypair.key_name
+  availability_zone = var.az_1
+  
+
+  tags = {
+    Name = "${var.prefix}-vm_nginx_bottom_az1"
+  }
+  # set the mgmt interface 
+  network_interface {
+    network_interface_id = aws_network_interface.nginx_management_bottom_tier_az1.id
+    device_index         = 0
+  }
+  # set the egress zone interface 
+  network_interface {
+    network_interface_id = aws_network_interface.nginx_egress_zone_dmz_az1.id
+    device_index         = 1
+  }
+  # set the internal bottom tier interface 
+  network_interface {
+    network_interface_id = aws_network_interface.nginx_internal_bottom_tier_az1.id
+    device_index         = 2
+  }
+}
+
+
+## Create Nginx+ bottom tier az2
+resource "aws_instance" "nginx_bottom_az2" {
+  depends_on        = [aws_route_table_association.management]
+  ami               = var.nginx_ami
+  instance_type     = var.instance_type
+  key_name          = aws_key_pair.my_keypair.key_name
+  availability_zone = var.az_2
+  
+
+  tags = {
+    Name = "${var.prefix}-vm_nginx_bottom_az2"
+  }
+  # set the mgmt interface 
+  network_interface {
+    network_interface_id = aws_network_interface.nginx_management_bottom_tier_az2.id
+    device_index         = 0
+  }
+  # set the egress zone interface 
+  network_interface {
+    network_interface_id = aws_network_interface.nginx_egress_zone_dmz_az2.id
+    device_index         = 1
+  }
+  # set the internal bottom tier interface 
+  network_interface {
+    network_interface_id = aws_network_interface.nginx_internal_bottom_tier_az2.id
+    device_index         = 2
+  }
+}
