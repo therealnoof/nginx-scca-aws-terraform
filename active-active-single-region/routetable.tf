@@ -28,13 +28,23 @@ resource "aws_route_table" "internet" {
 #}
 
 ## Create the Route Table Associations
-resource "aws_route_table_association" "management" {
-  subnet_id      = aws_subnet.management.id
+resource "aws_route_table_association" "az_1_management" {
+  subnet_id      = aws_subnet.az_1_management.id
   route_table_id = aws_route_table.internet.id
 }
 
-resource "aws_route_table_association" "external" {
-  subnet_id      = aws_subnet.external.id
+resource "aws_route_table_association" "az_2_management" {
+  subnet_id      = aws_subnet.az_2_management.id
+  route_table_id = aws_route_table.internet.id
+}
+
+resource "aws_route_table_association" "az_1_external" {
+  subnet_id      = aws_subnet.az_1_external.id
+  route_table_id = aws_route_table.internet.id
+}
+
+resource "aws_route_table_association" "az_2_external" {
+  subnet_id      = aws_subnet.az_2_external.id
   route_table_id = aws_route_table.internet.id
 }
 
