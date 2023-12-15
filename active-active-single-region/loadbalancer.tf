@@ -91,7 +91,8 @@ resource "aws_lb_target_group" "ngninx_stack_443 {
   }
 
   targets = [ 
-    ""
+    "aws_network_interface.nginx_external_top_tier_az1.id"
+    "aws_network_interface.nginx_external_top_tier_az2.id"
   ]
 }
 

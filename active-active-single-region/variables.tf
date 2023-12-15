@@ -62,3 +62,9 @@ variable "nginx_ami" {
   type        = string
   default     = "ami-0b1136322fc65ce34"
 }
+
+variable "inspection_ami" {
+  description = "dummy server forwarding traffic - Ubuntu Server 22.04 LTS "
+  type        = string
+  default     = "ami-03f535c1f557d8eab"
+}
