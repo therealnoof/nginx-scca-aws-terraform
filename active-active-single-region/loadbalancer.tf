@@ -4,6 +4,7 @@ resource "aws_lb" "nlb" {
   name               = "nginx-scca-nlb"
   internal           = false
   load_balancer_type = "network"
+  subnets            = [for subnet in aws_subnet.az_1_external : subnet.id]
   security_groups    = aws_security_group.external.id
   # customer_owned_ipv4_pool = "name of private pool" 
   # use this option for BYOIP in Gov environments- see Hashicorp documentation
