@@ -38,8 +38,6 @@ vpc_cidrs = {
   application         = "192.168.1.0/24"
 }
 
-# This is the NLB IP 
-app_vip = "10.0.2.200"
 
 # Nginx+ instance type
 instance_type = "t3.large"

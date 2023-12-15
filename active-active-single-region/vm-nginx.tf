@@ -67,7 +67,7 @@ resource "aws_network_interface" "nginx_external_top_tier_az2" {
 
 ## Create Internal Network Interface for Nginix+ bottom tier in AZ1
 resource "aws_network_interface" "nginx_internal_bottom_tier_az1" {
-  subnet_id         = aws_subnet.internal_az_1.id
+  subnet_id         = aws_subnet.internal_az1.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.internal.id]
   tags = {
@@ -77,7 +77,7 @@ resource "aws_network_interface" "nginx_internal_bottom_tier_az1" {
 
 ## Create Internal Network Interface for Nginix+ bottom tier in AZ2
 resource "aws_network_interface" "nginx_internal_bottom_tier_az2" {
-  subnet_id         = aws_subnet.internal_az_2.id
+  subnet_id         = aws_subnet.internal_az2.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.internal.id]
   tags = {
@@ -134,7 +134,7 @@ resource "aws_network_interface" "nginx_egress_zone_dmz_az2" {
 
 ## Create Nginx+ top tier az1
 resource "aws_instance" "nginx_top_az1" {
-  depends_on        = [aws_route_table_association.management]
+  depends_on        = [aws_route_table_association.az_1_management]
   ami               = var.nginx_ami
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
@@ -164,7 +164,7 @@ resource "aws_instance" "nginx_top_az1" {
 
 ## Create Nginx+ top tier az2
 resource "aws_instance" "nginx_top_az2" {
-  depends_on        = [aws_route_table_association.management]
+  depends_on        = [aws_route_table_association.az_2_management]
   ami               = var.nginx_ami
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
