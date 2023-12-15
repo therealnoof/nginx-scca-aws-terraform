@@ -24,6 +24,12 @@ variable "az_2" {
   default     = "us-gov-east-1b"
 }
 
+variable "instance_type" {
+  description = "nginx instance size"
+  type        = string
+  default     = "t3.medium"
+}
+
 variable "ec2_key_name" {
   description = "AWS EC2 Key name for SSH access"
   type        = string
