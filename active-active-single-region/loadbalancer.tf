@@ -19,40 +19,40 @@ resource "aws_lb" "nlb" {
 # Create the Listeners
 
 resource "aws_lb_listener" "security_stack_443" {
-  load_balancer_arn = aws_lb.security_stack_443.arn
+  load_balancer_arn = aws_lb.nlb.arn
   port              = "443"
   protocol          = "TCP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.security_stack.arn
+    target_group_arn = aws_lb_target_group.nginx_stack_443.arn
   }
 }
 
 resource "aws_lb_listener" "security_stack_80" {
-  load_balancer_arn = aws_lb.security_stack_80.arn
+  load_balancer_arn = aws_lb.nlb.arn
   port              = "80"
   protocol          = "TCP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.security_stack.arn
+    target_group_arn = aws_lb_target_group.nginx_stack_80.arn
   }
 }
 
 
 # Create the Target Groups
 
-resource "aws_lb_target_group" "ngninx_stack_80"{
+resource "aws_lb_target_group" "nginx_stack_80"{
   name                  = "nginx-stack-80"
   preserve_client_ip    = "true"
   port                  = 80
   protocol              = "TCP"
   target_type           = "ip"
-  vpc_id                = aws_vpc.security_stack.id
+  vpc_id                = aws_vpc.securitystack.id
 
   stickiness {  
-    type                = source_ip
+    type                = "source_ip"
   }
 
   health_check {
@@ -63,23 +63,18 @@ resource "aws_lb_target_group" "ngninx_stack_80"{
     healthy_threshold   = 2
     unhealthy_threshold = 2
   }
-
-  targets = [ 
-    "aws_network_interface.nginx_external_top_tier_az1.id",
-    "aws_network_interface.nginx_external_top_tier_az2.id"
-  ]
 }
 
-resource "aws_lb_target_group" "ngninx_stack_443" {
+resource "aws_lb_target_group" "nginx_stack_443" {
   name                  = "nginx-stack-443"
   preserve_client_ip    = "true"
   port                  = 443
   protocol              = "TCP"
   target_type           = "ip"
-  vpc_id                = aws_vpc.security_stack.id
+  vpc_id                = aws_vpc.securitystack.id
 
   stickiness {  
-    type                = source_ip
+    type                = "source_ip"
   }
 
   health_check {
@@ -90,10 +85,29 @@ resource "aws_lb_target_group" "ngninx_stack_443" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
   }
+}
 
-  targets = [ 
-    "aws_network_interface.nginx_external_top_tier_az1.id",
-    "aws_network_interface.nginx_external_top_tier_az2.id"
-  ]
+resource "aws_lb_target_group_attachment" "nginx_stack_80_az1" {
+  target_group_arn = aws_lb_target_group.nginx_stack_80.arn
+  target_id        = "aws_network_interface.nginx_external_top_tier_az1.id"
+  port             = 80
+}
+
+resource "aws_lb_target_group_attachment" "nginx_stack_80_az2" {
+  target_group_arn = aws_lb_target_group.nginx_stack_80.arn
+  target_id        = "aws_network_interface.nginx_external_top_tier_az2.id"
+  port             = 80
+}
+
+resource "aws_lb_target_group_attachment" "nginx_stack_443_az1" {
+  target_group_arn = aws_lb_target_group.nginx_stack_443.arn
+  target_id        = "aws_network_interface.nginx_external_top_tier_az1.id"
+  port             = 443
+}
+
+resource "aws_lb_target_group_attachment" "nginx_stack_443_az2" {
+  target_group_arn = aws_lb_target_group.nginx_stack_443.arn
+  target_id        = "aws_network_interface.nginx_external_top_tier_az2.id"
+  port             = 443
 }
 
