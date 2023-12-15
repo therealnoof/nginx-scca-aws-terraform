@@ -46,10 +46,6 @@ variable "vpc_cidrs" {
   type        = map(string)
 }
 
-variable "app_vip" {
-  description = "IP address of NLB listener"
-  type        = string
-}
 
 variable "webapp_ami" {
   description = "Test web app AMI - Ubuntu Server 22.04 LTS running Docker with Juiceshop"
