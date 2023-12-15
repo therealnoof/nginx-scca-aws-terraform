@@ -34,7 +34,7 @@ resource "aws_network_interface" "egress_zone_inspection_az1" {
 
 
 
-## Create Inspection device
+## Create Inspection device in AZ1
 resource "aws_instance" "inspection_device_az1" {
 
   ami                         = var.inspection_ami

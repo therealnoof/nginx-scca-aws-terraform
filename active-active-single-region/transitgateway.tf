@@ -1,8 +1,8 @@
 ## Create the TGW
 resource "aws_ec2_transit_gateway" "nginx-scca" {
-  description = "Transit Gateway for SSLO"
+  description = "Transit Gateway for Nginx SCCA"
   tags = {
-    Name = "${var.prefix}-tgw_sslo"
+    Name = "${var.prefix}-tgw_nginx_scca"
   }
 }
 

@@ -96,7 +96,7 @@ resource "aws_network_interface" "nginx_ingress_zone_dmz_az1" {
 }
 
 ## Create dmz ingress zone Network Interface for Nginx+ in AZ2
-resource "aws_network_interface" "nginx_ingress_zone_dmz_az2" {p
+resource "aws_network_interface" "nginx_ingress_zone_dmz_az2" {
   subnet_id         = aws_subnet.dmz_ingress_zone_az2.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.inspection_zone.id]

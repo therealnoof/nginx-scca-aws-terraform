@@ -49,138 +49,149 @@ resource "aws_route_table_association" "az_2_external" {
 }
 
 
-## Create the Route Table for 'dmz1' subnet
-resource "aws_route_table" "dmz1" {
+## Create the Route Table for 'dmz ingress zone az1' subnet
+resource "aws_route_table" "ingress_zone_az1" {
   vpc_id = aws_vpc.securitystack.id
   route {
     cidr_block           = "0.0.0.0/0"
-    network_interface_id = aws_network_interface.bigip_dmz1.id
+    network_interface_id = aws_network_interface.nginx_ingress_zone_dmz_az1.id
   }
   route {
-    cidr_block           = var.vpc_cidrs["external"]
-    network_interface_id = aws_network_interface.inspection_device_1_dmz1.id
+    cidr_block           = var.vpc_cidrs["az_1_external"]
+    network_interface_id = aws_network_interface.ingress_zone_inspection_az1.id
   }
   tags = {
-    Name = "${var.prefix}-rt_inspection_device_1_dmz1"
+    Name = "${var.prefix}-rt_inspection_zone_ingress_dmz_az1"
   }
 }
 
 ## Create the Route Table Association
-resource "aws_route_table_association" "dmz1" {
-  subnet_id      = aws_subnet.dmz1.id
-  route_table_id = aws_route_table.dmz1.id
+resource "aws_route_table_association" "ingress_zone_az1" {
+  subnet_id      = aws_subnet.dmz_ingress_zone_az1.id
+  route_table_id = aws_route_table.ingress_zone_az1.id
 }
 
 
-## Create the Route Table for 'dmz2' subnet
-resource "aws_route_table" "dmz2" {
+## Create the Route Table for 'dmz ingress zone az2' subnet
+resource "aws_route_table" "ingress_zone_az2" {
   vpc_id = aws_vpc.securitystack.id
   route {
     cidr_block           = "0.0.0.0/0"
-    network_interface_id = aws_network_interface.inspection_device_1_dmz2.id
+    network_interface_id = aws_network_interface.nginx_ingress_zone_dmz_az2.id
   }
   route {
-    cidr_block           = var.vpc_cidrs["external"]
-    network_interface_id = aws_network_interface.bigip_dmz2.id
+    cidr_block           = var.vpc_cidrs["az_2_external"]
+    network_interface_id = aws_network_interface.ingress_zone_inspection_az2.id
   }
   tags = {
-    Name = "${var.prefix}-rt_inspection_device_1_dmz2"
+    Name = "${var.prefix}-rt_inspection_zone_ingress_dmz_az2"
   }
 }
 
 ## Create the Route Table Association
-resource "aws_route_table_association" "dmz2" {
-  subnet_id      = aws_subnet.dmz2.id
-  route_table_id = aws_route_table.dmz2.id
+resource "aws_route_table_association" "ingress_zone_az2" {
+  subnet_id      = aws_subnet.dmz_ingress_zone_az2.id
+  route_table_id = aws_route_table.ingress_zone_az2.id
 }
 
 
-## Create the Route Table for 'dmz3' subnet
-resource "aws_route_table" "dmz3" {
+## Create the Route Table for 'dmz egress zone az1' subnet
+resource "aws_route_table" "egress_zone_az1" {
   vpc_id = aws_vpc.securitystack.id
   route {
     cidr_block           = "0.0.0.0/0"
-    network_interface_id = aws_network_interface.bigip_dmz3.id
+    network_interface_id = aws_network_interface.nginx_egress_zone_dmz_az1.id
   }
   route {
-    cidr_block           = var.vpc_cidrs["external"]
-    network_interface_id = aws_network_interface.inspection_device_2_dmz3.id
+    cidr_block           = var.vpc_cidrs["az_1_external"]
+    network_interface_id = aws_network_interface.egress_zone_inspection_az1.id
   }
   tags = {
-    Name = "${var.prefix}-rt_inspection_device_2_dmz3"
+    Name = "${var.prefix}-rt_inspection_zone_egress_dmz_az1"
   }
 }
 
 ## Create the Route Table Association
-resource "aws_route_table_association" "dmz3" {
-  subnet_id      = aws_subnet.dmz3.id
-  route_table_id = aws_route_table.dmz3.id
+resource "aws_route_table_association" "egress_zone_az1" {
+  subnet_id      = aws_subnet.dmz_egress_zone_az1.id
+  route_table_id = aws_route_table.egress_zone_az1.id
 }
 
 
-## Create the Route Table for 'dmz4' subnet
-resource "aws_route_table" "dmz4" {
+## Create the Route Table for 'dmz egress zone az2' subnet
+resource "aws_route_table" "egress_zone_az2" {
   vpc_id = aws_vpc.securitystack.id
   route {
     cidr_block           = "0.0.0.0/0"
-    network_interface_id = aws_network_interface.inspection_device_2_dmz4.id
+    network_interface_id = aws_network_interface.nginx_egress_zone_dmz_az2.id
   }
   route {
-    cidr_block           = var.vpc_cidrs["external"]
-    network_interface_id = aws_network_interface.bigip_dmz4.id
+    cidr_block           = var.vpc_cidrs["az_2_external"]
+    network_interface_id = aws_network_interface.egress_zone_inspection_az2.id
   }
   tags = {
-    Name = "${var.prefix}-rt_inspection_device_2_dmz4"
+    Name = "${var.prefix}-rt_inspection_zone_egress_dmz_az2"
   }
 }
 
 ## Create the Route Table Association
-resource "aws_route_table_association" "dmz4" {
-  subnet_id      = aws_subnet.dmz4.id
-  route_table_id = aws_route_table.dmz4.id
+resource "aws_route_table_association" "egress_zone_az2" {
+  subnet_id      = aws_subnet.dmz_egress_zone_az2.id
+  route_table_id = aws_route_table.egress_zone_az2.id
 }
 
 
-## Create the Route Table for 'internal' subnet
-resource "aws_route_table" "internal" {
+## Create the Route Table for 'internal az1' subnet
+resource "aws_route_table" "internal_az1" {
   vpc_id = aws_vpc.securitystack.id
   route {
     cidr_block           = "0.0.0.0/0"
-    network_interface_id = aws_network_interface.bigip_internal.id
+    network_interface_id = aws_network_interface.nginx_internal_bottom_tier_az1.id
   }
   route {
     cidr_block         = var.vpc_cidrs["application"]
-    transit_gateway_id = aws_ec2_transit_gateway.sslo.id
+    transit_gateway_id = aws_ec2_transit_gateway.nginx-scca.id
   }
   tags = {
-    Name = "${var.prefix}-rt_internal"
+    Name = "${var.prefix}-rt_internal_az1"
   }
 }
 
 ## Create the Route Table Association
-resource "aws_route_table_association" "internal" {
-  subnet_id      = aws_subnet.internal.id
-  route_table_id = aws_route_table.internal.id
+resource "aws_route_table_association" "internal_az1" {
+  subnet_id      = aws_subnet.internal_az1.id
+  route_table_id = aws_route_table.internal_az1.id
 }
 
+
+## Create the Route Table for 'internal az2' subnet
+resource "aws_route_table" "internal_az2" {
+  vpc_id = aws_vpc.securitystack.id
+  route {
+    cidr_block           = "0.0.0.0/0"
+    network_interface_id = aws_network_interface.nginx_internal_bottom_tier_az2.id
+  }
+  route {
+    cidr_block         = var.vpc_cidrs["application"]
+    transit_gateway_id = aws_ec2_transit_gateway.nginx-scca.id
+  }
+  tags = {
+    Name = "${var.prefix}-rt_internal_az2"
+  }
+}
 
 ## Create the Route Table for 'application' subnet
 resource "aws_route_table" "application" {
   vpc_id = aws_vpc.appstack.id
   route {
-    cidr_block         = "0.0.0.0/0"
-    transit_gateway_id = aws_ec2_transit_gateway.sslo.id
+    cidr_block           = "0.0.0.0/0"
+    transit_gateway_id   = aws_ec2_transit_gateway.nginx-scca.id 
   }
+  
   tags = {
     Name = "${var.prefix}-rt_application"
   }
 }
-
-# Create the Main Route Table Association
-#resource "aws_main_route_table_association" "application" {
-#  vpc_id         = aws_vpc.appstack.id
-#  route_table_id = aws_route_table.application.id
-#}
 
 ## Create the Route Table Association for 'application' subnet
 resource "aws_route_table_association" "application" {
