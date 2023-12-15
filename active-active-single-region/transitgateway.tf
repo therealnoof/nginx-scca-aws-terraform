@@ -21,7 +21,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "securitystack" {
 resource "aws_ec2_transit_gateway_vpc_attachment" "appstack" {
   subnet_ids             = [aws_subnet.application.id]
   transit_gateway_id     = aws_ec2_transit_gateway.nginx-scca.id
-  vpc_id                 = aws_vpc.app stack.id
+  vpc_id                 = aws_vpc.appstack.id
   appliance_mode_support = "enable"
   tags = {
     Name = "${var.prefix}-tgw_attachment_appstack"

@@ -43,7 +43,7 @@ resource "aws_lb_listener" "security_stack_80" {
 
 # Create the Target Groups
 
-resource "aws_lb_target_group" "ngninx_stack_80 {
+resource "aws_lb_target_group" "ngninx_stack_80"{
   name                  = "nginx-stack-80"
   preserve_client_ip    = "true"
   port                  = 80
@@ -65,12 +65,12 @@ resource "aws_lb_target_group" "ngninx_stack_80 {
   }
 
   targets = [ 
-    "aws_network_interface.nginx_external_top_tier_az1.id"
+    "aws_network_interface.nginx_external_top_tier_az1.id",
     "aws_network_interface.nginx_external_top_tier_az2.id"
   ]
 }
 
-resource "aws_lb_target_group" "ngninx_stack_443 {
+resource "aws_lb_target_group" "ngninx_stack_443" {
   name                  = "nginx-stack-443"
   preserve_client_ip    = "true"
   port                  = 443
@@ -92,7 +92,7 @@ resource "aws_lb_target_group" "ngninx_stack_443 {
   }
 
   targets = [ 
-    "aws_network_interface.nginx_external_top_tier_az1.id"
+    "aws_network_interface.nginx_external_top_tier_az1.id",
     "aws_network_interface.nginx_external_top_tier_az2.id"
   ]
 }
