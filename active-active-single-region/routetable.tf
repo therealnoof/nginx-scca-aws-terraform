@@ -57,7 +57,7 @@ resource "aws_route_table" "ingress_zone_az1" {
     network_interface_id = aws_network_interface.nginx_ingress_zone_dmz_az1.id
   }
   route {
-    cidr_block           = var.vpc_cidrs["az_1_external"]
+    cidr_block           = var.vpc_cidrs["external_az1"]
     network_interface_id = aws_network_interface.ingress_zone_inspection_az1.id
   }
   tags = {
@@ -80,7 +80,7 @@ resource "aws_route_table" "ingress_zone_az2" {
     network_interface_id = aws_network_interface.nginx_ingress_zone_dmz_az2.id
   }
   route {
-    cidr_block           = var.vpc_cidrs["az_2_external"]
+    cidr_block           = var.vpc_cidrs["external_az2"]
     network_interface_id = aws_network_interface.ingress_zone_inspection_az2.id
   }
   tags = {
@@ -103,7 +103,7 @@ resource "aws_route_table" "egress_zone_az1" {
     network_interface_id = aws_network_interface.nginx_egress_zone_dmz_az1.id
   }
   route {
-    cidr_block           = var.vpc_cidrs["az_1_external"]
+    cidr_block           = var.vpc_cidrs["external_az1"]
     network_interface_id = aws_network_interface.egress_zone_inspection_az1.id
   }
   tags = {
@@ -126,7 +126,7 @@ resource "aws_route_table" "egress_zone_az2" {
     network_interface_id = aws_network_interface.nginx_egress_zone_dmz_az2.id
   }
   route {
-    cidr_block           = var.vpc_cidrs["az_2_external"]
+    cidr_block           = var.vpc_cidrs["external_az2"]
     network_interface_id = aws_network_interface.egress_zone_inspection_az2.id
   }
   tags = {
@@ -184,10 +184,10 @@ resource "aws_route_table" "internal_az2" {
 resource "aws_route_table" "application" {
   vpc_id = aws_vpc.appstack.id
   route {
-    cidr_block           = "0.0.0.0/0"
-    transit_gateway_id   = aws_ec2_transit_gateway.nginx-scca.id 
+    cidr_block         = "0.0.0.0/0"
+    transit_gateway_id = aws_ec2_transit_gateway.nginx-scca.id
   }
-  
+
   tags = {
     Name = "${var.prefix}-rt_application"
   }

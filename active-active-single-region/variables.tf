@@ -9,19 +9,19 @@ variable "prefix" {
 variable "region" {
   description = "AWS Gov Region"
   type        = string
-  default     = "us-gov-east-1"
+  default     = "us-east-1"
 }
 
 variable "az_1" {
   description = "AWS Availability Zone"
   type        = string
-  default     = "us-gov-east-1a"
+  default     = "us-east-1a"
 }
 
 variable "az_2" {
   description = "AWS Availability Zone"
   type        = string
-  default     = "us-gov-east-1b"
+  default     = "us-east-1b"
 }
 
 variable "instance_type" {

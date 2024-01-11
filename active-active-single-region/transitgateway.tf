@@ -9,7 +9,7 @@ resource "aws_ec2_transit_gateway" "nginx-scca" {
 
 ## Create the TGW Attachments
 resource "aws_ec2_transit_gateway_vpc_attachment" "securitystack" {
-  subnet_ids             = [aws_subnet.internal_az1.id,aws_subnet.internal_az2.id]
+  subnet_ids             = [aws_subnet.internal_az1.id, aws_subnet.internal_az2.id]
   transit_gateway_id     = aws_ec2_transit_gateway.nginx-scca.id
   vpc_id                 = aws_vpc.securitystack.id
   appliance_mode_support = "enable"

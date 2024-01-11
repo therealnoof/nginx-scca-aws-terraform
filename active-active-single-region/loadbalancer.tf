@@ -4,12 +4,12 @@ resource "aws_lb" "nlb" {
   name               = "nginx-scca-nlb"
   internal           = false
   load_balancer_type = "network"
-  subnets            = "external_az1"
-  security_groups    = aws_security_group.external.id
+  subnets            = [aws_subnet.az_1_external.id,aws_subnet.az_2_external.id]
+  security_groups    = [aws_security_group.external.id]
   # customer_owned_ipv4_pool = "name of private pool" 
   # use this option for BYOIP in Gov environments- see Hashicorp documentation
-  enable_cross_zone_load_balancing = true 
-  enable_deletion_protection = true
+  enable_cross_zone_load_balancing = true
+  enable_deletion_protection       = true
 
   tags = {
     Name       = "${var.prefix}-nlb"
@@ -44,16 +44,16 @@ resource "aws_lb_listener" "security_stack_80" {
 
 # Create the Target Groups
 
-resource "aws_lb_target_group" "nginx_stack_80"{
-  name                  = "nginx-stack-80"
-  preserve_client_ip    = "true"
-  port                  = 80
-  protocol              = "TCP"
-  target_type           = "ip"
-  vpc_id                = aws_vpc.securitystack.id
+resource "aws_lb_target_group" "nginx_stack_80" {
+  name               = "nginx-stack-80"
+  preserve_client_ip = "true"
+  port               = 80
+  protocol           = "TCP"
+  target_type        = "ip"
+  vpc_id             = aws_vpc.securitystack.id
 
-  stickiness {  
-    type                = "source_ip"
+  stickiness {
+    type = "source_ip"
   }
 
   health_check {
@@ -67,15 +67,15 @@ resource "aws_lb_target_group" "nginx_stack_80"{
 }
 
 resource "aws_lb_target_group" "nginx_stack_443" {
-  name                  = "nginx-stack-443"
-  preserve_client_ip    = "true"
-  port                  = 443
-  protocol              = "TCP"
-  target_type           = "ip"
-  vpc_id                = aws_vpc.securitystack.id
+  name               = "nginx-stack-443"
+  preserve_client_ip = "true"
+  port               = 443
+  protocol           = "TCP"
+  target_type        = "ip"
+  vpc_id             = aws_vpc.securitystack.id
 
-  stickiness {  
-    type                = "source_ip"
+  stickiness {
+    type = "source_ip"
   }
 
   health_check {

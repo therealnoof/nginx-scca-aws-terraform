@@ -139,7 +139,7 @@ resource "aws_instance" "nginx_top_az1" {
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
   availability_zone = var.az_1
-  
+
 
   tags = {
     Name = "${var.prefix}-vm_nginx_top_az1"
@@ -169,7 +169,7 @@ resource "aws_instance" "nginx_top_az2" {
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
   availability_zone = var.az_2
-  
+
 
   tags = {
     Name = "${var.prefix}-vm_nginx_top_az2"
@@ -198,7 +198,7 @@ resource "aws_instance" "nginx_bottom_az1" {
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
   availability_zone = var.az_1
-  
+
 
   tags = {
     Name = "${var.prefix}-vm_nginx_bottom_az1"
@@ -228,7 +228,7 @@ resource "aws_instance" "nginx_bottom_az2" {
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
   availability_zone = var.az_2
-  
+
 
   tags = {
     Name = "${var.prefix}-vm_nginx_bottom_az2"

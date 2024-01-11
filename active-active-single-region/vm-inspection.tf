@@ -37,31 +37,31 @@ resource "aws_network_interface" "egress_zone_inspection_az1" {
 ## Create Inspection device in AZ1
 resource "aws_instance" "inspection_device_az1" {
 
-  ami                         = var.inspection_ami
-  instance_type               = "t2.small"
-  key_name                    = aws_key_pair.my_keypair.key_name
-  availability_zone           = var.az_1
-  depends_on                  = [aws_internet_gateway.nginx-scca]
-  user_data                   = <<-EOF
+  ami               = var.inspection_ami
+  instance_type     = "t2.small"
+  key_name          = aws_key_pair.my_keypair.key_name
+  availability_zone = var.az_1
+  depends_on        = [aws_internet_gateway.nginx-scca]
+  user_data         = <<-EOF
                                 #!/bin/bash
                                 sudo ip route add 10.0.2.0/24 via 10.0.4.23 dev eth2
                                 sudo sysctl -w net.ipv4.ip_forward=1
                                 EOF
-                              
-   tags = {
+
+  tags = {
     Name = "${var.prefix}-nginx-scca-inspection-az1"
   }
   network_interface {
-    network_interface_id      = aws_network_interface.management_inspection_az1.id
-    device_index              = 0
+    network_interface_id = aws_network_interface.management_inspection_az1.id
+    device_index         = 0
   }
   network_interface {
-    network_interface_id      = aws_network_interface.ingress_zone_inspection_az1.id
-    device_index              = 1
+    network_interface_id = aws_network_interface.ingress_zone_inspection_az1.id
+    device_index         = 1
   }
   network_interface {
-    network_interface_id      = aws_network_interface.egress_zone_inspection_az1.id
-    device_index              = 2
+    network_interface_id = aws_network_interface.egress_zone_inspection_az1.id
+    device_index         = 2
   }
 }
 
@@ -104,30 +104,30 @@ resource "aws_network_interface" "egress_zone_inspection_az2" {
 
 resource "aws_instance" "inspection_device_az2" {
 
-  ami                         = var.inspection_ami
-  instance_type               = "t2.small"
-  key_name                    = aws_key_pair.my_keypair.key_name
-  availability_zone           = var.az_2
-  depends_on                  = [aws_internet_gateway.nginx-scca]
-  user_data                   = <<-EOF
+  ami               = var.inspection_ami
+  instance_type     = "t2.small"
+  key_name          = aws_key_pair.my_keypair.key_name
+  availability_zone = var.az_2
+  depends_on        = [aws_internet_gateway.nginx-scca]
+  user_data         = <<-EOF
                                 #!/bin/bash
                                 sudo ip route add 10.0.2.0/24 via 10.0.4.23 dev eth2
                                 sudo sysctl -w net.ipv4.ip_forward=1
                                 EOF
-                              
-   tags = {
+
+  tags = {
     Name = "${var.prefix}-nginx-scca-inspection-az2"
   }
   network_interface {
-    network_interface_id      = aws_network_interface.management_inspection_az2.id
-    device_index              = 0
+    network_interface_id = aws_network_interface.management_inspection_az2.id
+    device_index         = 0
   }
   network_interface {
-    network_interface_id      = aws_network_interface.ingress_zone_inspection_az2.id
-    device_index              = 1
+    network_interface_id = aws_network_interface.ingress_zone_inspection_az2.id
+    device_index         = 1
   }
   network_interface {
-    network_interface_id      = aws_network_interface.egress_zone_inspection_az2.id
-    device_index              = 2
+    network_interface_id = aws_network_interface.egress_zone_inspection_az2.id
+    device_index         = 2
   }
 }
