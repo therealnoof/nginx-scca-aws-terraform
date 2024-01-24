@@ -43,6 +43,6 @@ instance_type = "t3.large"
 
 
 # AMI IDs (Region-specific)
-inspection_ami = "ami-03f535c1f557d8eab" ### us-gov-east-1 ### Ubuntu Server 22.04 LTS 
-webapp_ami     = "ami-03f535c1f557d8eab" ### us-gov-east-1 ### Ubuntu Server 22.04 LTS running Docker with Juiceshop
+inspection_ami = "ami-0a5fc03dd2a689a9b" ### us-gov-east-1 ### Ubuntu Server 22.04 LTS 
+webapp_ami     = "ami-0a5fc03dd2a689a9b" ### us-gov-east-1 ### Ubuntu Server 22.04 LTS running Docker with Juiceshop
 
