@@ -39,7 +39,7 @@ vpc_cidrs = {
 }
 
 # Nginx+ instance type
-instance_type = "t3.large"
+instance_type = "t3.small"
 
 
 # AMI IDs (Region-specific)

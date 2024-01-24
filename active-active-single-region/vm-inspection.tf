@@ -38,7 +38,7 @@ resource "aws_network_interface" "egress_zone_inspection_az1" {
 resource "aws_instance" "inspection_device_az1" {
 
   ami               = var.inspection_ami
-  instance_type     = "t2.small"
+  instance_type     = "t3.small"
   key_name          = aws_key_pair.my_keypair.key_name
   availability_zone = var.az_1
   depends_on        = [aws_internet_gateway.nginx-scca]
@@ -105,7 +105,7 @@ resource "aws_network_interface" "egress_zone_inspection_az2" {
 resource "aws_instance" "inspection_device_az2" {
 
   ami               = var.inspection_ami
-  instance_type     = "t2.small"
+  instance_type     = "t3.small"
   key_name          = aws_key_pair.my_keypair.key_name
   availability_zone = var.az_2
   depends_on        = [aws_internet_gateway.nginx-scca]
