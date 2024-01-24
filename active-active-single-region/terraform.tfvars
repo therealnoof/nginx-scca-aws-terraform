@@ -18,9 +18,9 @@ ec2_key_name = "nginx-scca-keypair"
 mgmt_src_addr_prefixes = ["0.0.0.0/0"]
 
 # AWS location
-region = "us-east-1"
-az_1   = "us-east-1a"
-az_2   = "us-east-1b"
+region = "us-gov-east-1"
+az_1   = "us-gov-east-1a"
+az_2   = "us-gov-east-1b"
 
 # VPC subnets
 vpc_cidrs = {

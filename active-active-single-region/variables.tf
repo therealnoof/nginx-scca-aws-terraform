@@ -9,25 +9,25 @@ variable "prefix" {
 variable "region" {
   description = "AWS Gov Region"
   type        = string
-  default     = "us-east-1"
+  default     = "us-gov-east-1"
 }
 
 variable "az_1" {
   description = "AWS Availability Zone"
   type        = string
-  default     = "us-east-1a"
+  default     = "us-gov-east-1a"
 }
 
 variable "az_2" {
   description = "AWS Availability Zone"
   type        = string
-  default     = "us-east-1b"
+  default     = "us-gov-east-1b"
 }
 
 variable "instance_type" {
   description = "nginx instance size"
   type        = string
-  default     = "t3.medium"
+  default     = "t3.small"
 }
 
 variable "ec2_key_name" {
@@ -56,17 +56,17 @@ variable "vpc_cidrs" {
 variable "webapp_ami" {
   description = "Test web app AMI - Ubuntu Server 22.04 LTS running Docker with Juiceshop"
   type        = string
-  default     = "ami-03f535c1f557d8eab"
+  default     = "ami-0a5fc03dd2a689a9b"
 }
 
 variable "nginx_ami" {
   description = "nginx+ with app protect on Ubuntu 20.04 LTS"
   type        = string
-  default     = "ami-0b1136322fc65ce34"
+  default     = "ami-005ff695c9d065161"
 }
 
 variable "inspection_ami" {
   description = "dummy server forwarding traffic - Ubuntu Server 22.04 LTS "
   type        = string
-  default     = "ami-03f535c1f557d8eab"
+  default     = "ami-0a5fc03dd2a689a9b"
 }

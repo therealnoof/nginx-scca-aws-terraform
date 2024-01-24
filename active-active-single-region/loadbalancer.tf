@@ -9,7 +9,7 @@ resource "aws_lb" "nlb" {
   # customer_owned_ipv4_pool = "name of private pool" 
   # use this option for BYOIP in Gov environments- see Hashicorp documentation
   enable_cross_zone_load_balancing = true
-  enable_deletion_protection       = true
+  enable_deletion_protection       = false
 
   tags = {
     Name       = "${var.prefix}-nlb"
@@ -60,7 +60,6 @@ resource "aws_lb_target_group" "nginx_stack_80" {
     interval            = 30
     port                = 80
     protocol            = "TCP"
-    timeout             = 10
     healthy_threshold   = 2
     unhealthy_threshold = 2
   }
@@ -82,7 +81,6 @@ resource "aws_lb_target_group" "nginx_stack_443" {
     interval            = 30
     port                = 443
     protocol            = "TCP"
-    timeout             = 10
     healthy_threshold   = 2
     unhealthy_threshold = 2
   }
