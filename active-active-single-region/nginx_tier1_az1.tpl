@@ -1,7 +1,46 @@
 #!/bin/bash
+
+# Lets update Ubuntu
 sudo apt update -y
 
-echo "
+# Lets make sure openssl is installed
+sudo apt-get install openssl
+
+# Lets create the directory for the config file and certs
+mkdir /etc/ssl/nginxsccademo/
+
+# Lets create the cert config file for use in our openssl command to eliminate the cert prompts
+cat > /etc/ssl/nginxsccademo/certconfig.conf << EOF
+[req]
+prompt = no
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+
+[req_distinguished_name]
+C = US
+ST = Virginia
+L = Washington D.C.
+O = F5 
+OU = DoD Engineering
+CN = ngnixsccademo.com
+emailAddress = dontspamme@example.com
+
+[v3_req]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = nginxsccademo.com
+DNS.2 = www.nginxsccademo.com
+EOF
+
+# Create the self-signed SSL cert
+cd /etc/ssl/nginxsccademo/
+sudo openssl req -x509 -nodes -days 365 -config certconfig.conf -newkey rsa:2048 -keyout /etc/ssl/nginxsccademo/nginxsccademo.key -out /etc/ssl/nginxsccademo/nginxsccademo.crt
+
+# Overwrite the existing nginx.conf file with our new config
+cat > /etc/nginx/nginx.conf << EOF
 # Set the user that nginx worker processes will run as to "nginx"
 user nginx;
 
@@ -112,9 +151,9 @@ http {
 
     # Upstream block for backend server(s) if load balancing
     # This is also used for memory allocation to share connection information between worker processes
-    upstream my_upstream {
-        zone my_upstream 64k;
-        server 192.168.0.196:80;
+    upstream bottom_nginx {
+        zone bottom_nginx 64k;
+        server 10.0.7.0/24:80;
     }
 
     # Server block for redirecting http traffic to https
@@ -122,7 +161,7 @@ http {
      	# Require TLS handshake APSEC APSC-DV-002460
         # IP + Port 80 combination to satisfy Apache STIG AS24-U1-000360, AS24-U2-000360 and AS24-U2-000960, AS24-U1-000780, AS24-U1-000950
         # ex: listen 172.16.0.1:80 default_server;
-        listen 172.16.0.1:80 default_server;
+        listen 10.0.3.0/24:80 default_server;
         server_name localhost;
         return 301 https://$host$request_uri; #uses browser 301 method
     }
@@ -133,10 +172,10 @@ http {
         # IP + Port 80 combination to satisfy Apache STIG AS24-U1-000360, AS24-U2-000360 and AS24-U2-000960, AS24-U1-000780, AS24-U1-000950
         # ex: listen 172.16.0.1:443 default_server;
         # Satisfies Apache STIG AS24-U1-000030 APSEC APSC-DV-002440
-        listen 172.16.0.1:443 ssl default_server;
+        listen 10.0.3.0/24:443 ssl default_server;
 
         # Add server_name for virtual host capabilites
-        server_name stigdemo.example.com;
+        server_name nginxdemoscca.com;
 
         # Apply connection and rate limits
         limit_conn ip_addr 10;
@@ -144,15 +183,15 @@ http {
 
         # Certificates and client verification
         # On host, set permissions on files to 0600 for Apache STIG AS24-U2-000390 and APSC STIG APSC-DV-001820
-        ssl_certificate /etc/ssl/stigdemo/stigdemo.crt;
-        ssl_certificate_key /etc/ssl/stigdemo/stigdemo.key;
+        ssl_certificate /etc/ssl/nginxsccademo/nginxsccademo.crt;
+        ssl_certificate_key /etc/ssl/nginxsccademo/nginxsccademo.key;
 
         # This satisfies Apache STIG AS24-U2-000380 /this requests/requires the cac cert
-        ssl_verify_client on;
-        ssl_verify_depth 4;
+        #ssl_verify_client on;
+        #ssl_verify_depth 4;
 
         # Satisfies Apache STIG AS24-U2-000810 APSEC APSC-DV-0023000  /this is the DoD root cert
-        ssl_client_certificate /etc/nginx/ssl/DoDRoots.crt;
+        #ssl_client_certificate /etc/nginx/ssl/DoDRoots.crt;
 
         ssl_session_cache shared:SSL:50m;
         ssl_session_timeout 1d;
@@ -193,12 +232,12 @@ http {
             }
             # Proxy settings
             # Limit TLS Protocols
-          #  proxy_ssl_protocols TLSv1.2 TLSv1.3; # comment this out on the top tier
-            # Satisfies APSEC APSC-DV-002040 002290 # comment this out on the top tier
-          #  proxy_ssl_ciphers "TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-CHACHA20-POLY1305:!EXPORT";
+            #proxy_ssl_protocols TLSv1.2 TLSv1.3; # comment this out on the top tier
+            #Satisfies APSEC APSC-DV-002040 002290 # comment this out on the top tier
+            #proxy_ssl_ciphers "TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-CHACHA20-POLY1305:!EXPORT";
             # Proxy to the Upstream server that was created above.
             # APSEC STIG APSC-DV-002440
-            proxy_pass https://my_upstream; # change this to http: on the top tier or leave it to do ssl from bottom tier to application
+            proxy_pass http://bottom_nginx; # change this to http: on the top tier or leave it to do ssl from bottom tier to application
             # Mutual TLS to the server we are proxying to above.
             ssl_certificate /etc/ssl/stigdemo/stigdemo.crt;
             ssl_certificate_key /etc/ssl/stigdemo/stigdemo.key;
@@ -216,5 +255,6 @@ http {
         }
     }
 }
-" > /etc/nginx/nginx.conf
+EOF
+
 sudo systemctl reload nginx

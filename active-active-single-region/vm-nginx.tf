@@ -127,13 +127,14 @@ resource "aws_network_interface" "nginx_egress_zone_dmz_az2" {
 
 
 
-#
+# 
 # Nginx+
 #
 
 
 ## Create Nginx+ top tier az1
 
+# create the mapping to the config file to bootstrap the tier 1 az1 nginx instance
 data "template_file" "nginx_tier1_az1" {
   template = file("nginx_tier1_az1.tpl")
 }

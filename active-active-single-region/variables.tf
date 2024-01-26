@@ -70,3 +70,4 @@ variable "inspection_ami" {
   type        = string
   default     = "ami-0a5fc03dd2a689a9b"
 }
+
