@@ -44,7 +44,7 @@ resource "aws_instance" "inspection_device_az1" {
   depends_on        = [aws_internet_gateway.nginx-scca]
   user_data         = <<-EOF
                                 #!/bin/bash
-                                sudo ip route add 10.0.2.0/24 via 10.0.4.23 dev eth2
+                                sudo ip route add 10.0.7.0/24 via dev eth2
                                 sudo sysctl -w net.ipv4.ip_forward=1
                                 EOF
 
@@ -111,7 +111,7 @@ resource "aws_instance" "inspection_device_az2" {
   depends_on        = [aws_internet_gateway.nginx-scca]
   user_data         = <<-EOF
                                 #!/bin/bash
-                                sudo ip route add 10.0.2.0/24 via 10.0.4.23 dev eth2
+                                sudo ip route add 10.0.8.0/24 via dev eth2
                                 sudo sysctl -w net.ipv4.ip_forward=1
                                 EOF
 

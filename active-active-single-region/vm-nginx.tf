@@ -139,6 +139,7 @@ resource "aws_instance" "nginx_top_az1" {
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
   availability_zone = var.az_1
+  
 
 
   tags = {

@@ -88,25 +88,25 @@ resource "aws_lb_target_group" "nginx_stack_443" {
 
 resource "aws_lb_target_group_attachment" "nginx_stack_80_az1" {
   target_group_arn = aws_lb_target_group.nginx_stack_80.arn
-  target_id        = "aws_network_interface.nginx_external_top_tier_az1.id"
+  target_id        = aws_network_interface.nginx_external_top_tier_az1.private_ip
   port             = 80
 }
 
 resource "aws_lb_target_group_attachment" "nginx_stack_80_az2" {
   target_group_arn = aws_lb_target_group.nginx_stack_80.arn
-  target_id        = "aws_network_interface.nginx_external_top_tier_az2.id"
+  target_id        = aws_network_interface.nginx_external_top_tier_az2.private_ip
   port             = 80
 }
 
 resource "aws_lb_target_group_attachment" "nginx_stack_443_az1" {
   target_group_arn = aws_lb_target_group.nginx_stack_443.arn
-  target_id        = "aws_network_interface.nginx_external_top_tier_az1.id"
+  target_id        = aws_network_interface.nginx_external_top_tier_az1.private_ip
   port             = 443
 }
 
 resource "aws_lb_target_group_attachment" "nginx_stack_443_az2" {
   target_group_arn = aws_lb_target_group.nginx_stack_443.arn
-  target_id        = "aws_network_interface.nginx_external_top_tier_az2.id"
+  target_id        = aws_network_interface.nginx_external_top_tier_az2.private_ip
   port             = 443
 }
 

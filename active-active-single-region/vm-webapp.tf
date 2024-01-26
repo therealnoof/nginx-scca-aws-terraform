@@ -16,6 +16,9 @@ resource "aws_instance" "webapp-server" {
   instance_type     = "t3.small"
   key_name          = aws_key_pair.my_keypair.key_name
   availability_zone = var.az_1
+  user_data                   = <<-EOF
+                                
+                                EOF
   tags = {
     Name = "${var.prefix}-vm_webapp"
   }
