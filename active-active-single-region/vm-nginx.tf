@@ -133,11 +133,17 @@ resource "aws_network_interface" "nginx_egress_zone_dmz_az2" {
 
 
 ## Create Nginx+ top tier az1
+
+data "template_file" "nginx_tier1_az1" {
+  template = file("nginx_tier1_az1.tpl")
+}
+
 resource "aws_instance" "nginx_top_az1" {
   depends_on        = [aws_route_table_association.az_1_management]
   ami               = var.nginx_ami
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
+  user_data         = data.template_file.nginx_tier1_az1.rendered
   availability_zone = var.az_1
   
 
