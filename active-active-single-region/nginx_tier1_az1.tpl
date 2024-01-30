@@ -44,4 +44,4 @@ sudo openssl req -x509 -nodes -days 365 -config certconfig.conf -newkey rsa:2048
 
 cd /etc/nginx/
 sudo rm nginx.conf
-wget 
+wget https://github.com/therealnoof/nginx-scca-aws-terraform/blob/main/active-active-single-region/nginx.conf
