@@ -171,11 +171,18 @@ resource "aws_instance" "nginx_top_az1" {
 
 
 ## Create Nginx+ top tier az2
+
+# create the mapping to the config file to bootstrap the tier 1 az2 nginx instance
+data "template_file" "nginx_tier1_az2" {
+  template = file("nginx_tier1_az2.tpl")
+}
+
 resource "aws_instance" "nginx_top_az2" {
   depends_on        = [aws_route_table_association.az_2_management]
   ami               = var.nginx_ami
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
+  user_data         = data.template_file.nginx_tier1_az2.rendered
   availability_zone = var.az_2
 
 
