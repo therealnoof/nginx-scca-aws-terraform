@@ -43,6 +43,5 @@ cd /etc/ssl/nginxsccademo/
 sudo openssl req -x509 -nodes -days 365 -config certconfig.conf -newkey rsa:2048 -keyout /etc/ssl/nginxsccademo/nginxsccademo.key -out /etc/ssl/nginxsccademo/nginxsccademo.crt
 
 cd /etc/nginx/
-sudo rm nginx.conf
-sudo wget https://raw.githubusercontent.com/therealnoof/nginx-scca-aws-terraform/main/active-active-single-region/nginx-confs/nginx-toptier-az1/nginx.conf
+sudo wget https://raw.githubusercontent.com/therealnoof/nginx-scca-aws-terraform/main/active-active-single-region/nginx-confs/nginx-toptier-az1/nginx.conf -O nginx.conf
 sudo systemctl reload nginx
