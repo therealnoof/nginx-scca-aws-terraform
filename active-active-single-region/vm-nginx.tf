@@ -135,8 +135,8 @@ resource "aws_network_interface" "nginx_egress_zone_dmz_az2" {
 ## Create Nginx+ top tier az1
 
 # create the mapping to the config file to bootstrap the tier 1 az1 nginx instance
-data "template_file" "nginx_tier1_az1" {
-  template = file("nginx_tier1_az1.tpl")
+data "template_file" "nginx_toptier_az1" {
+  template = file("nginx_toptier_az1.tpl")
 }
 
 resource "aws_instance" "nginx_top_az1" {
@@ -144,7 +144,7 @@ resource "aws_instance" "nginx_top_az1" {
   ami               = var.nginx_ami
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
-  user_data         = data.template_file.nginx_tier1_az1.rendered
+  user_data         = data.template_file.nginx_toptier_az1.rendered
   availability_zone = var.az_1
   
 
@@ -173,8 +173,8 @@ resource "aws_instance" "nginx_top_az1" {
 ## Create Nginx+ top tier az2
 
 # create the mapping to the config file to bootstrap the tier 1 az2 nginx instance
-data "template_file" "nginx_tier1_az2" {
-  template = file("nginx_tier1_az2.tpl")
+data "template_file" "nginx_toptier_az2" {
+  template = file("nginx_toptier_az2.tpl")
 }
 
 resource "aws_instance" "nginx_top_az2" {
@@ -182,7 +182,7 @@ resource "aws_instance" "nginx_top_az2" {
   ami               = var.nginx_ami
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
-  user_data         = data.template_file.nginx_tier1_az2.rendered
+  user_data         = data.template_file.nginx_toptier_az2.rendered
   availability_zone = var.az_2
 
 
@@ -207,11 +207,17 @@ resource "aws_instance" "nginx_top_az2" {
 }
 
 ## Create Nginx+ bottom tier az1
+
+# create the mapping to the config file to bootstrap the bottom tier az1 nginx instance
+data "template_file" "nginx_bottomtier_az1" {
+  template = file("nginx_bottomtier_az1.tpl")
+}
 resource "aws_instance" "nginx_bottom_az1" {
   depends_on        = [aws_route_table_association.az_1_management]
   ami               = var.nginx_ami
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
+  user_data         = data.template_file.nginx_bottomtier_az1.rendered
   availability_zone = var.az_1
 
 
@@ -237,11 +243,17 @@ resource "aws_instance" "nginx_bottom_az1" {
 
 
 ## Create Nginx+ bottom tier az2
+
+data "template_file" "nginx_bottomtier_az2" {
+  template = file("nginx_bottomtier_az2.tpl")
+}
+
 resource "aws_instance" "nginx_bottom_az2" {
   depends_on        = [aws_route_table_association.az_2_management]
   ami               = var.nginx_ami
   instance_type     = var.instance_type
   key_name          = aws_key_pair.my_keypair.key_name
+  user_data         = data.template_file.nginx_bottomtier_az2.rendered
   availability_zone = var.az_2
 
 
