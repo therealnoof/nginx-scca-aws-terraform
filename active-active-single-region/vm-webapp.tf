@@ -1,5 +1,6 @@
 ## Create the Network Interface for the WebServer
 resource "aws_network_interface" "webapp" {
+  private_ips       = ["192.168.1.30"]
   subnet_id         = aws_subnet.application.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.appstack.id]

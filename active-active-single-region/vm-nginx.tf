@@ -46,6 +46,7 @@ resource "aws_network_interface" "nginx_management_bottom_tier_az2" {
 
 ## Create External Network Interface for Nginx+ top tier in AZ1
 resource "aws_network_interface" "nginx_external_top_tier_az1" {
+  private_ips       = ["10.0.3.203"]
   subnet_id         = aws_subnet.az_1_external.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.external.id]
@@ -56,6 +57,7 @@ resource "aws_network_interface" "nginx_external_top_tier_az1" {
 
 ## Create External Network Interface for Nginx+ top tier in AZ2
 resource "aws_network_interface" "nginx_external_top_tier_az2" {
+  private_ips       = ["10.0.4.24"]
   subnet_id         = aws_subnet.az_2_external.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.external.id]
@@ -67,6 +69,7 @@ resource "aws_network_interface" "nginx_external_top_tier_az2" {
 
 ## Create Internal Network Interface for Nginix+ bottom tier in AZ1
 resource "aws_network_interface" "nginx_internal_bottom_tier_az1" {
+  private_ips       = ["10.0.9.31"]
   subnet_id         = aws_subnet.internal_az1.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.internal.id]
@@ -77,6 +80,7 @@ resource "aws_network_interface" "nginx_internal_bottom_tier_az1" {
 
 ## Create Internal Network Interface for Nginix+ bottom tier in AZ2
 resource "aws_network_interface" "nginx_internal_bottom_tier_az2" {
+  private_ips       = ["10.0.10.8"]
   subnet_id         = aws_subnet.internal_az2.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.internal.id]
@@ -87,6 +91,7 @@ resource "aws_network_interface" "nginx_internal_bottom_tier_az2" {
 
 ## Create dmz ingress zone Network Interface for Nginx+ in AZ1
 resource "aws_network_interface" "nginx_ingress_zone_dmz_az1" {
+  private_ips       = ["10.0.5.144"]
   subnet_id         = aws_subnet.dmz_ingress_zone_az1.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.inspection_zone.id]
@@ -97,6 +102,7 @@ resource "aws_network_interface" "nginx_ingress_zone_dmz_az1" {
 
 ## Create dmz ingress zone Network Interface for Nginx+ in AZ2
 resource "aws_network_interface" "nginx_ingress_zone_dmz_az2" {
+  private_ips       = ["10.0.6.47"]
   subnet_id         = aws_subnet.dmz_ingress_zone_az2.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.inspection_zone.id]
@@ -107,6 +113,7 @@ resource "aws_network_interface" "nginx_ingress_zone_dmz_az2" {
 
 ## Create dmz egress zone Network Interface for Nginx+ in AZ1
 resource "aws_network_interface" "nginx_egress_zone_dmz_az1" {
+  private_ips       = ["10.0.7.48"]
   subnet_id         = aws_subnet.dmz_egress_zone_az1.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.inspection_zone.id]
@@ -117,6 +124,7 @@ resource "aws_network_interface" "nginx_egress_zone_dmz_az1" {
 
 ## Create dmz egress zone Network Interface for Nginx+ in AZ2
 resource "aws_network_interface" "nginx_egress_zone_dmz_az2" {
+  private_ips       = ["10.0.8.70"]
   subnet_id         = aws_subnet.dmz_egress_zone_az2.id
   source_dest_check = "false"
   security_groups   = [aws_security_group.inspection_zone.id]
