@@ -43,10 +43,9 @@ resource "aws_instance" "inspection_device_az1" {
   availability_zone = var.az_1
   depends_on        = [aws_internet_gateway.nginx-scca]
   user_data         = <<-EOF
-                                #!/bin/bash
-                                sudo ip route add 10.0.7.0/24 via dev eth2
-                                sudo sysctl -w net.ipv4.ip_forward=1
-                                EOF
+  #!/bin/bash
+  sudo sysctl -w net.ipv4.ip_forward=1
+  EOF
 
   tags = {
     Name = "${var.prefix}-nginx-scca-inspection-az1"
@@ -110,10 +109,10 @@ resource "aws_instance" "inspection_device_az2" {
   availability_zone = var.az_2
   depends_on        = [aws_internet_gateway.nginx-scca]
   user_data         = <<-EOF
-                                #!/bin/bash
-                                sudo ip route add 10.0.8.0/24 via dev eth2
-                                sudo sysctl -w net.ipv4.ip_forward=1
-                                EOF
+  #!/bin/bash
+  sudo apt update -y
+  sudo sysctl -w net.ipv4.ip_forward=1
+  EOF
 
   tags = {
     Name = "${var.prefix}-nginx-scca-inspection-az2"
